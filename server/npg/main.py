@@ -19,6 +19,7 @@
 # this program. If not, see <http://www.gnu.org/licenses/>.
 
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 
 from npg.porch.endpoints import pipelines, tasks
@@ -46,6 +47,8 @@ app = FastAPI(
 app.include_router(pipelines.router)
 app.include_router(tasks.router)
 
+app.mount('/js_client', StaticFiles(directory='./js_client/dist'), name='client')
+
 @app.get(
     "/",
     response_class=HTMLResponse,
@@ -63,6 +66,7 @@ async def root():
             <p><a href="/docs">docs</a></p>
             <p><a href="/redoc">redoc</a></p>
             <p><a href="/api/v1/openapi.json">OpenAPI JSON Schema</a></p>
+            <p><a href="/js_client/index.html">User status view</a></p>
         </body>
     </html>
     """

@@ -7,3 +7,7 @@ __pycache__
 build
 .pytest_cache
 .vscode
+node_modules/
+dist/
+.package-lock.json
+.npm
