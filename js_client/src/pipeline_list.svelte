@@ -1,8 +1,8 @@
 <script>
-    let service_uri = new URL('http://0.0.0.0:8000/pipelines')
-    let source = new URL('http://0.0.0.0:8000/pipelines')
-    let apiToken = '9437ce958e9f4a4dbd51b4c8a2567466'
-    export let freeExpression = undefined
+    let service_uri = new URL('http://0.0.0.0:8000/pipelines');
+    let source = new URL('http://0.0.0.0:8000/pipelines');
+    let apiToken = '9437ce958e9f4a4dbd51b4c8a2567466';
+    export let freeExpression = undefined;
 
     let pipeline_promise = fetch(source, {
         headers: {
