@@ -1,8 +1,11 @@
 <script>
+    import { createEventDispatcher } from 'svelte';
+
+    const dispatch = createEventDispatcher();
+
     let service_uri = new URL('http://0.0.0.0:8000/pipelines');
     let source = new URL('http://0.0.0.0:8000/pipelines');
     let apiToken = '9437ce958e9f4a4dbd51b4c8a2567466';
-    export let freeExpression = undefined;
 
     let pipeline_promise = fetch(source, {
         headers: {
@@ -12,11 +15,13 @@
         },
         redirect: 'follow'
     }).then(response => response.json());
+
+    function signalLoadTasks(event) {
+        console.log('Triggered by pipeline click')
+        console.log(event.target.parentElement.id)
+        dispatch('message', { pipeline_name: event.target.parentElement.id});
+    };
 </script>
-<div>
-    <h1>Here be {freeExpression} dragons</h1>
-    <div>Data source = {source}</div>
-</div>
 
 <div>
     <h2>Some pipelines</h2>
@@ -26,7 +31,7 @@
             <tr><td>Loading</td></tr>
         {:then pipelines}
             {#each pipelines as {name, uri, version}, i}
-            <tr>
+            <tr id={name} on:click={signalLoadTasks}>
                 <td>{name}</td><td>{uri}</td><td>{version}</td>
             </tr>
             {/each}
@@ -50,6 +55,7 @@
         border: 1px;
     }
     tr:nth-child(even){background-color: #a2a2a2;}
+    tr:hover {background-color: #ddd;}
     th {
         font-weight: bold;
         background-color: #9292ff
