@@ -7,6 +7,8 @@
     let source = new URL('http://0.0.0.0:8000/pipelines');
     let apiToken = '9437ce958e9f4a4dbd51b4c8a2567466';
 
+    export let tableStyle;
+
     let pipeline_promise = fetch(source, {
         headers: {
             'Accept': 'application/json',
@@ -24,14 +26,14 @@
 </script>
 
 <div>
-    <h2>Some pipelines</h2>
-    <table>
+    <table class="{tableStyle}">
+        <caption>Some pipelines</caption>
         <tr><th>Pipeline name</th><th>URI</th><th>Version</th></tr>
         {#await pipeline_promise}
             <tr><td>Loading</td></tr>
         {:then pipelines}
             {#each pipelines as {name, uri, version}, i}
-            <tr id={name} on:click={signalLoadTasks}>
+            <tr id={name} on:click={signalLoadTasks} class="selectable">
                 <td>{name}</td><td>{uri}</td><td>{version}</td>
             </tr>
             {/each}
@@ -40,24 +42,3 @@
         {/await}
     </table>
 </div>
-
-<style>
-    table {
-        border: 1px solid;
-        border-radius: 5px;
-    }
-    tr, th, td {
-        padding: 10px;
-        text-align: left;
-    }
-    tr {
-        background-color: #ffffff;
-        border: 1px;
-    }
-    tr:nth-child(even){background-color: #a2a2a2;}
-    tr:hover {background-color: #ddd;}
-    th {
-        font-weight: bold;
-        background-color: #9292ff
-    }
-</style>
